@@ -56,6 +56,8 @@ object ApkUpdater {
 
     private const val PREFS = "tv_listesi_guncelleme"
     private const val KEY_LAST_SEEN = "son_gorulen_apk"
+    private const val KEY_LAST_CHECK = "son_guncelleme_kontrolu"
+    private const val CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000L
     private const val APK_DIR = "apk"
     private const val APK_FILE = "guncelleme.apk"
     private const val MAX_APK_SIZE = 100L * 1024 * 1024
@@ -132,6 +134,36 @@ object ApkUpdater {
 
     fun markSeen(context: Context, id: String) {
         prefs(context).edit().putString(KEY_LAST_SEEN, id).apply()
+    }
+
+    /** Otomatik kontrolü açılışta her seferinde yapmamak için kullanılır. */
+    fun recentlyChecked(context: Context): Boolean =
+        System.currentTimeMillis() - prefs(context).getLong(KEY_LAST_CHECK, 0L) < CHECK_INTERVAL_MS
+
+    fun markChecked(context: Context) {
+        prefs(context).edit().putLong(KEY_LAST_CHECK, System.currentTimeMillis()).apply()
+    }
+
+    private fun normalizeTag(tag: String?): String =
+        tag?.trim()?.removePrefix("v")?.removePrefix("V")?.trim().orEmpty()
+
+    /** Sürüm etiketinden (örn. v2.0.18) tekrar bildirim anahtarı üretir. */
+    fun releaseSeenKey(tag: String?): String? =
+        normalizeTag(tag).takeIf { it.isNotBlank() }?.let { "surum-$it" }
+
+    /**
+     * APK'yı indirmeden önce release etiketini kurulu sürümle karşılaştırır.
+     * Etiket okunamazsa eski davranışa dönülür ve APK indirilir.
+     */
+    fun isReleaseNewer(tag: String?, current: ApkMeta): Boolean {
+        val normalized = normalizeTag(tag)
+        if (normalized.isEmpty()) return true
+        val parts = normalized.split('.')
+        if (parts.size == 1) {
+            val code = parts[0].toLongOrNull() ?: return true
+            return code > current.versionCode
+        }
+        return isNewer(normalized, current.versionName.orEmpty())
     }
 
     /** Dosya adındaki sürüm, kurulu sürümden yeni mi? */

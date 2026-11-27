@@ -23,6 +23,7 @@ object PlaylistRepository {
     private const val KEY_SERVER = "sunucu_adresi"
     private const val KEY_AUTO = "otomatik_guncelle"
     private const val KEY_UPDATED = "son_guncelleme"
+    private const val KEY_REFRESH_URL = "son_yenilenen_adres"
     private const val KEY_SAVED_LISTS = "kayitli_listeler"
     private const val KEY_EXTERNAL_PLAYER = "harici_oynatici"
     private const val KEY_SCREEN_MODE = "goruntu_modu"
@@ -42,6 +43,9 @@ object PlaylistRepository {
 
     /** Kaydedilebilecek en fazla liste sayısı. */
     const val MAX_SAVED_LISTS = 10
+
+    /** Açılışta aynı adresin yeniden indirilmemesi için kullanılan süre. */
+    private const val AUTO_REFRESH_TTL_MS = 15 * 60 * 1000L
 
     /** Uygulamayla gelen sabit listenin güncel kaynağı. */
     const val YERLESIK_LISTE_URL =
@@ -222,6 +226,16 @@ object PlaylistRepository {
     fun lastUpdated(context: Context): Long =
         prefs(context).getLong(KEY_UPDATED, 0L)
 
+    /**
+     * Aynı adres yakın zamanda indirildiyse açılışta tekrar indirmeye gerek yok.
+     * Kullanıcı adresi değiştirdiğinde [isFresh] false döner ve liste yenilenir.
+     */
+    fun isFresh(context: Context, url: String): Boolean {
+        val lastUrl = prefs(context).getString(KEY_REFRESH_URL, null) ?: return false
+        return lastUrl == url &&
+            System.currentTimeMillis() - lastUpdated(context) < AUTO_REFRESH_TTL_MS
+    }
+
     // ------------------------------------------------------------ görüntü modu
 
     /**
@@ -334,9 +348,13 @@ object PlaylistRepository {
      */
     suspend fun refresh(
         context: Context,
-        url: String = serverUrl(context)
+        url: String = serverUrl(context),
+        force: Boolean = true
     ): Result<Int> = withContext(Dispatchers.IO) {
         runCatching {
+            if (!force && channels.isNotEmpty() && isFresh(context, url)) {
+                return@runCatching channels.size
+            }
             val (body, finalUrl) = runCatching { download(context, url) }.getOrElse { error ->
                 // Yerleşik liste her koşulda çalışsın: ağ yoksa APK içindeki kopya.
                 if (isBuiltIn(url)) {
@@ -357,6 +375,7 @@ object PlaylistRepository {
 
             channels = parsed
             writeCache(context, parsed)
+            prefs(context).edit().putString(KEY_REFRESH_URL, url).apply()
             parsed.size
         }
     }

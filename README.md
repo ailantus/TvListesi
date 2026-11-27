@@ -31,11 +31,13 @@ uygulamayı yeniden yayınlamanız gerekmez.
 - Koyu tema, harici görsel/JSON kütüphanesi gerektirmeyen sade bağımlılıklar
 - **Toplu link kontrolü:** Etkin listedeki tüm yayın adreslerini eşzamanlı sınar;
   çalışan/hatalı filtresi ve tek dokunuşla hatalıları ayıklayıp yerel liste oluşturma
+- **Hızlı açılış:** aynı sürümde APK tekrar indirilmez, aynı liste 15 dakika
+  içinde yeniden indirilmez, arama yazarken filtreleme geciktirilir
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.17 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.17.apk`, versionCode 28). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.18 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.18.apk`, versionCode 29). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -290,9 +292,10 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.17` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
-olarak ekleyin. Uygulama etiketi sürüm karşılaştırması için kullanmaz; APK'nın
-kendi `versionCode`/`versionName` değerini okur. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
+(etiket `v2.0.18` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
+etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
+`versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
 bağlantıları da indirilebilir; Telegram dosya eklerinin `t.me/s` önizlemesinde
 indirme adresi bulunmadığından ek olarak paylaşılan APK'lar indirilemez.
 Android 8+ için **Bilinmeyen kaynaklardan yükleme** izni kurulumdan önce istenir.

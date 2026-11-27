@@ -35,7 +35,9 @@ import com.example.tvlistesi.databinding.DialogStreamUrlBinding
 import com.example.tvlistesi.databinding.ItemSavedListBinding
 import com.example.tvlistesi.ui.ChannelAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,6 +52,9 @@ class MainActivity : AppCompatActivity() {
     private var selectedGroup: String? = null
     private var refreshing = false
     private var updateCheckRequested = false
+
+    /** Yazarken her harfte tüm listeyi filtrelememek için gecikmeli filtre. */
+    private val filterRunnable = Runnable { applyFilter() }
 
     /** Seçilen liste ya da eklenen yayın geri döndüğünde arayüzü güncelle. */
     private val listLauncher = registerForActivityResult(
@@ -102,7 +107,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
             override fun afterTextChanged(s: Editable?) {
                 query = s?.toString().orEmpty()
-                applyFilter()
+                binding.searchInput.removeCallbacks(filterRunnable)
+                binding.searchInput.postDelayed(filterRunnable, 150)
             }
         })
 
@@ -122,8 +128,16 @@ class MainActivity : AppCompatActivity() {
                 applyFilter()
             }
 
-            val shouldRefresh = PlaylistRepository.autoRefresh(this@MainActivity) || cached.isEmpty()
-            if (shouldRefresh) refresh() else showEmptyStateIfNeeded()
+            when {
+                cached.isEmpty() -> refresh()
+                PlaylistRepository.autoRefresh(this@MainActivity) &&
+                    !PlaylistRepository.isFresh(
+                        this@MainActivity,
+                        PlaylistRepository.serverUrl(this@MainActivity)
+                    ) -> refresh(force = false)
+
+                else -> showEmptyStateIfNeeded()
+            }
         }
     }
 
@@ -150,22 +164,27 @@ class MainActivity : AppCompatActivity() {
         if (PlaylistParser.directChannel(url) == null) return false
 
         // Bağlantıyı olduğu gibi listeye ekle; sunucu adresini değiştirme.
-        // Ad, "Kanal 1" gibi sıralı bir değerle depoda üretilir.
-        val added = PlaylistRepository.addStream(this, url)
-        if (added != null) {
-            applyChannelsToUi()
-            Toast.makeText(
-                this,
-                getString(R.string.liste_guncellendi, 1),
-                Toast.LENGTH_SHORT
-            ).show()
+        // Disk yazması ana iş parçacığını yavaşlatmasın diye IO'ya taşınır.
+        val host = data.host
+        lifecycleScope.launch {
+            val added = withContext(Dispatchers.IO) {
+                PlaylistRepository.addStream(this@MainActivity, url)
+            }
+            if (added != null) {
+                applyChannelsToUi()
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.liste_guncellendi, 1),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            PlayerActivity.startUrl(
+                this@MainActivity,
+                url,
+                added?.name ?: host ?: getString(R.string.canli_yayin),
+                null
+            )
         }
-        PlayerActivity.startUrl(
-            this,
-            url,
-            added?.name ?: data.host ?: getString(R.string.canli_yayin),
-            null
-        )
         return true
     }
 
@@ -249,22 +268,26 @@ class MainActivity : AppCompatActivity() {
                     dialogBinding.streamLayout.error = getString(R.string.gecersiz_adres)
                     return@setOnClickListener
                 }
-                val added = PlaylistRepository.addStream(this, url)
-                if (added != null) {
-                    applyChannelsToUi()
-                    Toast.makeText(
+                lifecycleScope.launch {
+                    val added = withContext(Dispatchers.IO) {
+                        PlaylistRepository.addStream(this@MainActivity, url)
+                    }
+                    if (added != null) {
+                        applyChannelsToUi()
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.liste_guncellendi, 1),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    PlayerActivity.startUrl(
                         this@MainActivity,
-                        getString(R.string.liste_guncellendi, 1),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        url,
+                        added?.name ?: getString(R.string.canli_yayin),
+                        null
+                    )
+                    dialog.dismiss()
                 }
-                PlayerActivity.startUrl(
-                    this,
-                    url,
-                    added?.name ?: getString(R.string.canli_yayin),
-                    null
-                )
-                dialog.dismiss()
             }
         }
         dialog.show()
@@ -280,13 +303,13 @@ class MainActivity : AppCompatActivity() {
         updateSubtitle()
     }
 
-    private fun refresh(showSuccessToast: Boolean = false) {
+    private fun refresh(showSuccessToast: Boolean = false, force: Boolean = true) {
         if (refreshing) return
         refreshing = true
         binding.progress.isVisible = true
 
         lifecycleScope.launch {
-            val result = PlaylistRepository.refresh(this@MainActivity)
+            val result = PlaylistRepository.refresh(this@MainActivity, force = force)
             refreshing = false
             binding.progress.isVisible = false
 
@@ -619,8 +642,12 @@ class MainActivity : AppCompatActivity() {
         return uri?.host ?: getString(R.string.mevcut_liste)
     }
 
-    /** GitHub'daki son sürümün APK'sını indirip sürümü kontrol eder. */
+    /** GitHub'daki son sürümü kontrol eder; aynı sürümse APK'yı indirmez. */
     private fun checkForUpdate(showResult: Boolean = false) {
+        // Açılışta her seferinde GitHub'a gitmek gerekmez; elle kontrol her zaman çalışır.
+        if (!showResult && ApkUpdater.recentlyChecked(this)) return
+        if (!showResult) ApkUpdater.markChecked(this)
+
         lifecycleScope.launch {
             var progress: androidx.appcompat.app.AlertDialog? = null
             if (showResult && !isFinishing && !isDestroyed) {
@@ -632,18 +659,37 @@ class MainActivity : AppCompatActivity() {
             }
             try {
                 val update = ApkUpdater.fixedUpdate().getOrThrow()
-                val current = ApkUpdater.currentMeta(this@MainActivity).getOrThrow()
-                val prepared = ApkUpdater.prepare(this@MainActivity, update, current).getOrThrow()
+                val current = withContext(Dispatchers.IO) {
+                    ApkUpdater.currentMeta(this@MainActivity).getOrThrow()
+                }
+                val releaseKey = ApkUpdater.releaseSeenKey(update.version)
+                val newerRelease = ApkUpdater.isReleaseNewer(update.version, current)
+
+                // Etiket kurulu sürümle aynıysa veya bildirim daha önce gösterildiyse
+                // 8 MB'lık APK'yı indirmeden çık.
+                if (!newerRelease || (
+                        !showResult && releaseKey != null &&
+                            releaseKey == ApkUpdater.lastSeen(this@MainActivity)
+                    )
+                ) {
+                    progress?.dismiss()
+                    progress = null
+                    if (showResult && !newerRelease) {
+                        showUpdateDialog(getString(R.string.guncelleme_guncel))
+                    }
+                    return@launch
+                }
+
+                val prepared = withContext(Dispatchers.IO) {
+                    ApkUpdater.prepare(this@MainActivity, update, current).getOrThrow()
+                }
                 progress?.dismiss()
                 progress = null
 
                 if (prepared == null) {
                     if (showResult) showUpdateDialog(getString(R.string.guncelleme_guncel))
                 } else {
-                    val seen = ApkUpdater.seenKey(prepared)
-                    if (!showResult && seen == ApkUpdater.lastSeen(this@MainActivity)) {
-                        return@launch
-                    }
+                    val seen = releaseKey ?: ApkUpdater.seenKey(prepared)
                     ApkUpdater.prompt(this@MainActivity, prepared.update.copy(id = seen)) {
                         ApkUpdater.installPrepared(
                             this@MainActivity,
