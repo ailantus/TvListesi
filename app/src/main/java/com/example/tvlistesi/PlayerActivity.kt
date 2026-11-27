@@ -320,7 +320,10 @@ class PlayerActivity : AppCompatActivity() {
     /** Kumanda ve ekrandaki sarma düğmeleri 15 saniyelik adımlarla kaydırır. */
     private fun seekBy(deltaMs: Long) {
         val exoPlayer = player ?: return
-        if (!exoPlayer.isCurrentMediaItemSeekable) return
+        if (!exoPlayer.isCurrentMediaItemSeekable) {
+            Toast.makeText(this, R.string.sar_yok, Toast.LENGTH_SHORT).show()
+            return
+        }
         seekToMs(exoPlayer.currentPosition + deltaMs)
         showSeekIndicator(deltaMs)
     }

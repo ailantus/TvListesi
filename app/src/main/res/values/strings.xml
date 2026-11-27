@@ -40,6 +40,7 @@
     <string name="ileri_sar">15 saniye ileri sar</string>
     <string name="geri_sar_15_kisa">−15</string>
     <string name="ileri_sar_15_kisa">+15</string>
+    <string name="sar_yok">Bu yayında sarma kullanılamıyor.</string>
     <string name="saniye">%1$s sn</string>
     <string name="zaman_bilgisi">%1$s / %2$s</string>
     <string name="zaman_cizgisi">Zaman çizgisi</string>

@@ -39,8 +39,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.26 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.26.apk`, versionCode 37). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.27 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.27.apk`, versionCode 38). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -285,9 +285,11 @@ Kumanda ile **CH+ / CH−** (ve D-pad tuşları) çalışmaya devam eder.
 
 Yayın ileri/geri sarılabiliyorsa (örneğin VOD veya zaman kaydırmalı HLS)
 alt çubukta **zaman çizgisi** ve `geçerli / toplam` süre görünür. Çizgideki
-topu sürükleyerek istediğin ana geçebilirsiniz; ekrandaki **−15 / +15** düğmeleri
-ve kumandadaki **sar (rewind / fast forward)** tuşları 15 saniyelik adımlarla aynı
-çizgiyi kaydırır. Canlı yayınlarda zaman çizgisi ve atlama düğmeleri gösterilmez.
+topu sürükleyerek istediğin ana geçebilirsiniz; alt çubuktaki **−15 / +15**
+düğmeleri ve kumandadaki **sar (rewind / fast forward)** tuşları 15 saniyelik
+adımlarla aynı çizgiyi kaydırır. Atlama düğmeleri her yayında görünür; sarma
+desteklenmeyen yayınlarda bastığınızda uyarı gösterilir. Zaman çizgisi yalnızca
+ileri/geri sarılabilen yayınlarda görünür.
 
 ## Telegram kanalından liste bulma
 
@@ -317,7 +319,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.26` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.27` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
