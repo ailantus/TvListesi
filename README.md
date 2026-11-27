@@ -37,8 +37,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.20 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.20.apk`, versionCode 31). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.21 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.21.apk`, versionCode 32). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -275,7 +275,8 @@ yayınlarda zaman çizgisi gösterilmez.
 **⋮ → Telegram'dan liste bul** ekranında adres kutusu görünür ve varsayılan olarak
 `https://t.me/s/TvListesi` gelir; **Ara**'ya bastığınızda bu önizleme taranır.
 Uygulama kanalın tüm mesajlarını tarar; mesajlardaki `.m3u`/`.m3u8` adreslerini,
-tek kanal yayınlarını ve `/dizi` ya da `/film` ile biten bağlantıları listeler.
+tek kanal yayınlarını, `/dizi` ya da `/film` ile biten bağlantıları ve
+`...?ID=...&type=Film` / `type=Dizi` biçimindeki PHP liste adreslerini listeler.
 Bulunan kaynakların tamamı arama biter bitmez
 otomatik olarak kontrol edilir; **Tümünü kontrol et** düğmesiyle yeniden
 sınanabilir. **Kullan** ile kaynağı yükleyebilirsiniz. Tek kanal yayınları
@@ -294,7 +295,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.20` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.21` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive

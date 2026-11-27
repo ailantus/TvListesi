@@ -36,6 +36,15 @@ object TelegramDiscovery {
         """(?<![:\w])//[^\s<>"']+?[?&](?:type|output|format|ext)=m3u8?(?:_plus)?(?:[&#][^\s<>"']*)?""",
         RegexOption.IGNORE_CASE
     )
+    /** `?...&type=Film` / `type=Dizi` gibi PHP tabanlı liste adresleri. */
+    private val paramMediaUrl = Regex(
+        """https?://[^\s<>"']+?[?&]type=(?:film|dizi)(?=&|$)(?:&[^\s<>"']*)?""",
+        RegexOption.IGNORE_CASE
+    )
+    private val relativeParamMediaUrl = Regex(
+        """(?<![:\w])//[^\s<>"']+?[?&]type=(?:film|dizi)(?=&|$)(?:&[^\s<>"']*)?""",
+        RegexOption.IGNORE_CASE
+    )
 
     private val directStreamPatterns = listOf(
         Regex("""https?://[^\s<>"']+?\.(?:ts|m2ts)(?:\?[^\s<>"']*)?""", RegexOption.IGNORE_CASE),
@@ -342,11 +351,13 @@ object TelegramDiscovery {
         }
     }
 
-    private fun collectUrls(value: String, target: MutableSet<String>) {
+    internal fun collectUrls(value: String, target: MutableSet<String>) {
         m3uUrl.findAll(value).forEach { target += clean(it.value) }
         relativeM3uUrl.findAll(value).forEach { target += "https:" + clean(it.value) }
         paramM3uUrl.findAll(value).forEach { target += clean(it.value) }
         relativeParamM3uUrl.findAll(value).forEach { target += "https:" + clean(it.value) }
+        paramMediaUrl.findAll(value).forEach { target += clean(it.value) }
+        relativeParamMediaUrl.findAll(value).forEach { target += "https:" + clean(it.value) }
     }
 
     private fun clean(url: String): String = url
