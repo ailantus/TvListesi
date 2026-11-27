@@ -196,6 +196,14 @@ class PlayerActivity : AppCompatActivity() {
         binding.externalButton.setOnClickListener { openExternally() }
         binding.retryButton.setOnClickListener { play(currentIndex) }
         binding.playPauseButton.setOnClickListener { togglePlayPause() }
+        binding.rewindButton.setOnClickListener {
+            showControls()
+            seekBy(-SEEK_STEP_MS)
+        }
+        binding.forwardButton.setOnClickListener {
+            showControls()
+            seekBy(SEEK_STEP_MS)
+        }
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -309,7 +317,7 @@ class PlayerActivity : AppCompatActivity() {
         updateSeekTime()
     }
 
-    /** Kumandadaki sarma tuşları 10 saniyelik adımlarla zaman çizgisini kaydırır. */
+    /** Kumanda ve ekrandaki sarma düğmeleri 15 saniyelik adımlarla kaydırır. */
     private fun seekBy(deltaMs: Long) {
         val exoPlayer = player ?: return
         if (!exoPlayer.isCurrentMediaItemSeekable) return
@@ -1125,7 +1133,7 @@ class PlayerActivity : AppCompatActivity() {
         private const val EXTRA_MIME = "dlna_turu"
         private const val EXTRA_HIDE_LIST = "liste_gizli"
         private const val CONTROLS_HIDE_DELAY = 3_000L
-        private const val SEEK_STEP_MS = 10_000L
+        private const val SEEK_STEP_MS = 15_000L
         private const val TIME_UPDATE_INTERVAL = 1_000L
         private const val ADJUST_NONE = 0
         private const val ADJUST_BRIGHTNESS = 1

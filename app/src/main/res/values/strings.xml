@@ -36,8 +36,10 @@
     <string name="oynat">Oynat</string>
     <string name="duraklat">Duraklat</string>
     <string name="geri">Geri</string>
-    <string name="geri_sar">10 saniye geri sar</string>
-    <string name="ileri_sar">10 saniye ileri sar</string>
+    <string name="geri_sar">15 saniye geri sar</string>
+    <string name="ileri_sar">15 saniye ileri sar</string>
+    <string name="geri_sar_15_kisa">−15</string>
+    <string name="ileri_sar_15_kisa">+15</string>
     <string name="saniye">%1$s sn</string>
     <string name="zaman_bilgisi">%1$s / %2$s</string>
     <string name="zaman_cizgisi">Zaman çizgisi</string>
