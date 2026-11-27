@@ -1,6 +1,7 @@
 package com.example.tvlistesi.data
 
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -249,6 +250,64 @@ object ApkUpdater {
         }
     }
 
+    private fun telegramPackage(context: Context): String? = listOf(
+        "org.telegram.messenger",
+        "org.telegram.messenger.web",
+        "org.telegram.messenger.xiaomi"
+    ).firstOrNull { name ->
+        runCatching { context.packageManager.getPackageInfo(name, 0) }.isSuccess
+    }
+
+    /**
+     * APK'yı Telegram'a (yoksa paylaşım seçicisinden başka bir uygulamaya) gönderir.
+     * FileProvider yalnızca filesDir/apk altını paylaşabildiği için dosya kopyalanır.
+     */
+    fun shareApk(context: Context, file: File, displayName: String? = null) {
+        runCatching {
+            if (!file.exists()) throw IllegalStateException("APK dosyası bulunamadı")
+            val name = (displayName?.substringAfterLast('/') ?: file.name)
+                .ifBlank { "TvListesi.apk" }
+                .let { if (it.endsWith(".apk", true)) it else "$it.apk" }
+            val dir = File(context.filesDir, APK_DIR).apply { mkdirs() }
+            val shared = File(dir, name)
+            if (file.absolutePath != shared.absolutePath) {
+                file.copyTo(shared, overwrite = true)
+            }
+
+            val uri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.fileprovider",
+                shared
+            )
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/vnd.android.package-archive"
+                putExtra(Intent.EXTRA_STREAM, uri)
+                putExtra(Intent.EXTRA_SUBJECT, name.removeSuffix(".apk"))
+                putExtra(Intent.EXTRA_TEXT, name)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                clipData = ClipData.newRawUri(name, uri)
+            }
+            telegramPackage(context)?.let(intent::setPackage)
+            context.startActivity(
+                Intent.createChooser(intent, context.getString(R.string.apk_paylas))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        }.onFailure { error ->
+            Toast.makeText(
+                context,
+                context.getString(R.string.apk_paylas_hata, error.message.orEmpty()),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    /** Kurulu uygulamanın APK'sını Telegram'da paylaşır. */
+    fun shareInstalledApk(context: Context) {
+        val source = File(context.applicationInfo.sourceDir)
+        val version = currentMeta(context).getOrNull()?.versionName.orEmpty()
+        shareApk(context, source, "TvListesi-${version.ifBlank { "apk" }}.apk")
+    }
+
     private fun telegramParts(update: ApkUpdate): Pair<String?, String?> {
         val uri = runCatching { Uri.parse(update.messageUrl) }.getOrNull()
             ?: return null to update.id
@@ -463,18 +522,19 @@ object ApkUpdater {
             }
     }
 
-    /** Güncelleme uyarısını gösterir; kullanıcı "Güncelle" derse [onUpdate] çağrılır. */
+    /** Güncelleme uyarısını gösterir; istenirse indirilen APK'yı Telegram'da paylaşır. */
     fun prompt(
         activity: AppCompatActivity,
         update: ApkUpdate,
-        onUpdate: () -> Unit
+        onUpdate: () -> Unit,
+        onShare: (() -> Unit)? = null
     ) {
         markSeen(activity, update.id)
         val detail = listOfNotNull(
             update.version?.let { "v$it" },
             update.sizeText
         ).joinToString(" · ")
-        MaterialAlertDialogBuilder(activity)
+        val builder = MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.guncelleme_var)
             .setMessage(
                 activity.getString(
@@ -485,7 +545,10 @@ object ApkUpdater {
             )
             .setPositiveButton(R.string.guncelle) { _, _ -> onUpdate() }
             .setNegativeButton(R.string.sonra, null)
-            .show()
+        if (onShare != null) {
+            builder.setNeutralButton(R.string.telegramda_paylas) { _, _ -> onShare() }
+        }
+        builder.show()
     }
 
     fun installResultMessage(context: Context, resultCode: Int): String = when (resultCode) {

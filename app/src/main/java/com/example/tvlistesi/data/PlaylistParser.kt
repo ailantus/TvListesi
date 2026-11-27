@@ -24,6 +24,8 @@ object PlaylistParser {
         """\.(m3u8|mpd|ts|m4s|mp4|mkv|webm|mp3|aac|flac)(?:\?|$)""",
         RegexOption.IGNORE_CASE
     )
+    /** Telegram'da paylaşılan `/dizi` ve `/film` adresleri de tek kanaldır. */
+    private val directPathRegex = Regex("""/(?:dizi|film)/?$""", RegexOption.IGNORE_CASE)
 
     /**
      * Bir yayın adresinin bizzat kanal olduğu durumlar için tek kanallık liste
@@ -37,7 +39,8 @@ object PlaylistParser {
         val path = runCatching { URL(address).path }.getOrDefault(address)
         val isDirect = directStreamRegex.containsMatchIn(address) ||
             path.contains("/live/", ignoreCase = true) ||
-            path.contains("/hls/", ignoreCase = true)
+            path.contains("/hls/", ignoreCase = true) ||
+            directPathRegex.containsMatchIn(path)
         if (!isDirect) return null
 
         // Doğrudan yayın adresleri için dosya adı ("index" vb.) yerine

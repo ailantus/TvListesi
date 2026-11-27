@@ -17,6 +17,13 @@
         android:name="android.hardware.wifi"
         android:required="false" />
 
+    <!-- APK paylaşımında Telegram yüklü mü diye kontrol etmek için -->
+    <queries>
+        <package android:name="org.telegram.messenger" />
+        <package android:name="org.telegram.messenger.web" />
+        <package android:name="org.telegram.messenger.xiaomi" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:banner="@drawable/tv_banner"

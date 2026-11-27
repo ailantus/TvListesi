@@ -18,6 +18,7 @@ uygulamayı yeniden yayınlamanız gerekmez.
 - En fazla **10 listeyi** adlandırarak kaydetme ve aralarında tek dokunuşla geçiş
 - Harici oynatıcı desteği (VLC, MX Player vb.)
 - **Doğrudan yayın linki açma:** ⋮ → **Yayın adresi aç** ile HLS/DASH/MP4 adresini kanal listesine gerek kalmadan oynatma
+- **APK'yı Telegram'da paylaşma:** ⋮ → **APK'yı paylaş** kurulu sürümü, güncelleme uyarısındaki **Telegram'da paylaş** ise indirilen yeni sürümü gönderir (Telegram yoksa paylaşım seçicisi açılır)
 - HLS (`.m3u8`), DASH ve MP4 oynatma; **kaydırarak kanal değiştirme**, parlaklık/ses ayarı, oynat/duraklat; destekleyen yayınlarda sürüklenebilir zaman çizgisi
 - Oynatıcıda **sağ tarafta kanal listesi**: geçerli kanal vurgulanır, dokunarak veya
   D-pad ile kanal değiştirilir; liste düğmesiyle gizlenip gösterilebilir
@@ -36,8 +37,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.19 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.19.apk`, versionCode 30). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.20 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.20.apk`, versionCode 31). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -273,8 +274,9 @@ yayınlarda zaman çizgisi gösterilmez.
 
 **⋮ → Telegram'dan liste bul** ekranında adres kutusu görünür ve varsayılan olarak
 `https://t.me/s/TvListesi` gelir; **Ara**'ya bastığınızda bu önizleme taranır.
-Uygulama kanalın tüm mesajlarını tarar; mesajlardaki `.m3u`/`.m3u8` adreslerini
-ve tek kanal yayınlarını listeler. Bulunan kaynakların tamamı arama biter bitmez
+Uygulama kanalın tüm mesajlarını tarar; mesajlardaki `.m3u`/`.m3u8` adreslerini,
+tek kanal yayınlarını ve `/dizi` ya da `/film` ile biten bağlantıları listeler.
+Bulunan kaynakların tamamı arama biter bitmez
 otomatik olarak kontrol edilir; **Tümünü kontrol et** düğmesiyle yeniden
 sınanabilir. **Kullan** ile kaynağı yükleyebilirsiniz. Tek kanal yayınları
 mevcut listenin yerine geçer: önceki kanallar silinir, adres değiştirilmeden
@@ -292,7 +294,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.19` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.20` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive

@@ -45,6 +45,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_share_apk"
+        android:icon="@drawable/ic_share"
+        android:title="@string/apk_paylas"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_dlna"
         android:icon="@drawable/ic_cast"
         android:title="@string/dlna_sunuculari"

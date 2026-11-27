@@ -224,6 +224,11 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        R.id.action_share_apk -> {
+            ApkUpdater.shareInstalledApk(this)
+            true
+        }
+
         R.id.action_discover -> {
             listLauncher.launch(Intent(this, DiscoverActivity::class.java))
             true
@@ -690,13 +695,24 @@ class MainActivity : AppCompatActivity() {
                     if (showResult) showUpdateDialog(getString(R.string.guncelleme_guncel))
                 } else {
                     val seen = releaseKey ?: ApkUpdater.seenKey(prepared)
-                    ApkUpdater.prompt(this@MainActivity, prepared.update.copy(id = seen)) {
-                        ApkUpdater.installPrepared(
-                            this@MainActivity,
-                            prepared,
-                            installLauncher
-                        )
-                    }
+                    ApkUpdater.prompt(
+                        this@MainActivity,
+                        prepared.update.copy(id = seen),
+                        onUpdate = {
+                            ApkUpdater.installPrepared(
+                                this@MainActivity,
+                                prepared,
+                                installLauncher
+                            )
+                        },
+                        onShare = {
+                            ApkUpdater.shareApk(
+                                this@MainActivity,
+                                prepared.file,
+                                prepared.update.fileName
+                            )
+                        }
+                    )
                 }
             } catch (error: Throwable) {
                 if (showResult) {

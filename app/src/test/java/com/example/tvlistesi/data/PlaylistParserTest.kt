@@ -46,6 +46,16 @@ class PlaylistParserTest {
     }
 
     @Test
+    fun `dizi ve film adresleri tek kanal olarak taninir`() {
+        val dizi = PlaylistParser.directChannel("https://ornek.com/stream/117/dizi")
+        val film = PlaylistParser.directChannel("https://ornek.com/stream/118/film?token=abc")
+
+        assertEquals("https://ornek.com/stream/117/dizi", dizi?.url)
+        assertEquals("Tek kanal", dizi?.group)
+        assertEquals("https://ornek.com/stream/118/film?token=abc", film?.url)
+    }
+
+    @Test
     fun `goreli m3u8 adresi taban url ile cozulur`() {
         val body = """
             #EXTM3U

@@ -172,4 +172,7 @@
     <string name="apk_imza_hatasi">APK imzası kurulu uygulamayla uyuşmuyor.</string>
     <string name="apk_dosya_eki_uyarisi">Bu APK Telegram dosya eki olarak paylaşılmış. Uygulama içinde indirmek için mesaja doğrudan .apk bağlantısı ekleyin.</string>
     <string name="bilinmeyen_kaynak_izin">Bu uygulamanın APK kurmasına izin verin.</string>
+    <string name="apk_paylas">APK\'yı paylaş</string>
+    <string name="telegramda_paylas">Telegram\'da paylaş</string>
+    <string name="apk_paylas_hata">APK paylaşılamadı: %1$s</string>
 </resources>

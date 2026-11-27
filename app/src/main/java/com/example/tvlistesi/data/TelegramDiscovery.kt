@@ -46,6 +46,11 @@ object TelegramDiscovery {
         Regex(
             """https?://[^\s<>"']+/[^\s<>"']+/\d+(?:\.ts)?(?:\?[^\s<>"']*)?""",
             RegexOption.IGNORE_CASE
+        ),
+        // /dizi ve /film ile biten paylaşımlar da tek kanal olarak kontrol edilir.
+        Regex(
+            """https?://[^\s<>"']+?/(?:dizi|film)(?=[/?#]|$)(?:\?[^\s<>"']*)?""",
+            RegexOption.IGNORE_CASE
         )
     )
     private val nonStreamHosts = listOf("t.me", "telegram", "github", "gist", "jsdelivr")
