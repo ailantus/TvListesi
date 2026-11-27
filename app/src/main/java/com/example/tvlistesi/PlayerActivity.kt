@@ -968,10 +968,27 @@ class PlayerActivity : AppCompatActivity() {
     /**
      * Kumandanın kanal tuşları (CH+ / CH-), sayfa tuşları ve medya sonraki/önceki
      * tuşlarıyla kanal değiştirilebilsin; sarma tuşları yayını zaman kaydırır.
-     * D-pad odağı bozulmasın diye yalnızca bu tuşlar yakalanır.
+     * D-pad sağ/sol da kanal paneli kapalıyken 15 saniyelik atlama yapar; düğme
+     * odağı varsa gezinme bozulmaz.
      */
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         if (event.action == KeyEvent.ACTION_DOWN) {
+            // D-pad sağ/sol: kanal paneli kapalı ve odak bir düğmede değilse 15 sn sarar.
+            // Arayüzü göstermeden çalışır; böylece art arda basmak tekrar tekrar atlar.
+            if ((event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT ||
+                    event.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) &&
+                !binding.channelPanel.isVisible &&
+                !binding.topBar.hasFocus() && !binding.bottomBar.hasFocus()
+            ) {
+                seekBy(
+                    if (event.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                        SEEK_STEP_MS
+                    } else {
+                        -SEEK_STEP_MS
+                    }
+                )
+                return true
+            }
             // Geri tuşu arayüzü açıp paneli göstermesin; mevcut duruma göre çalışsın.
             if (event.keyCode != KeyEvent.KEYCODE_BACK) showControls()
             when (event.keyCode) {

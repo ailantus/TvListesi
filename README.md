@@ -39,8 +39,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.27 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.27.apk`, versionCode 38). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.28 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.28.apk`, versionCode 39). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -281,14 +281,15 @@ başlamıyorsa uygulama otomatik ekler.
 
 Hareketler yatay/dikey ekranda çalışır; hata ekranı veya açık kanal paneli
 üzerinde devre dışıdır. Parlaklık oynatıcıdan çıkılınca eski değerine döner.
-Kumanda ile **CH+ / CH−** (ve D-pad tuşları) çalışmaya devam eder.
+Kumanda ile **CH+ / CH−** çalışmaya devam eder; **D-pad sağ/sol** ise 15 saniye
+ileri/geri sarar (kanal paneli açıkken veya bir düğme odaktayken gezinmeyi bozmaz).
 
 Yayın ileri/geri sarılabiliyorsa (örneğin VOD veya zaman kaydırmalı HLS)
 alt çubukta **zaman çizgisi** ve `geçerli / toplam` süre görünür. Çizgideki
 topu sürükleyerek istediğin ana geçebilirsiniz; alt çubuktaki **−15 / +15**
-düğmeleri ve kumandadaki **sar (rewind / fast forward)** tuşları 15 saniyelik
-adımlarla aynı çizgiyi kaydırır. Atlama düğmeleri her yayında görünür; sarma
-desteklenmeyen yayınlarda bastığınızda uyarı gösterilir. Zaman çizgisi yalnızca
+düğmeleri, kumandadaki **D-pad sağ/sol** ve **sar (rewind / fast forward)**
+tuşları 15 saniyelik adımlarla aynı çizgiyi kaydırır. Atlama düğmeleri her
+yayında görünür; sarma desteklenmeyen yayınlarda bastığınızda uyarı gösterilir. Zaman çizgisi yalnızca
 ileri/geri sarılabilen yayınlarda görünür.
 
 ## Telegram kanalından liste bulma
@@ -319,7 +320,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.27` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.28` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
