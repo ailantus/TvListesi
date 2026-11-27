@@ -34,8 +34,9 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.16 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-apk-guncelleme-2.0.16.apk`, versionCode 27).
+Hazır imzalı APK: [TvListesi 2.0.17 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.17.apk`, versionCode 28). Uygulama açılışta bu sürümü kontrol eder
+ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
 
@@ -69,11 +70,12 @@ adb uninstall com.example.tvlistesi
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
-Hazır imzalı dosya: `../APK/TvListesi-apk-guncelleme.apk` (release,
-`../release-keystore.jks`, alias `dlna_tv_release`). Play Protect, Play Store
-dışından gelen her APK için yine de "doğrulanmamış kaynak" uyarısı gösterebilir;
-**Yine de yükle** seçeneği kullanılabilir. Eski sürümler `APK/TvListesi.apk` ve
-`APK/TvListesi-debug.apk` olarak yedektedir.
+Hazır imzalı dosyayı GitHub sürümlerinden indirin:
+https://github.com/ailantus/TvListesi/releases/latest
+(imzalı release APK, alias `dlna_tv_release`). Yerel derleme çıktısı
+`app/build/outputs/apk/release/app-release.apk` yolundadır. Play Protect, Play
+Store dışından gelen her APK için yine de "doğrulanmamış kaynak" uyarısı
+gösterebilir; **Yine de yükle** seçeneği kullanılabilir.
 
 > `local.properties` içinde `sdk.dir=/Android/Sdk` satırı bulunmalıdır.
 > Android Studio bunu otomatik oluşturur.
@@ -277,7 +279,7 @@ mevcut listenin yerine geçer: önceki kanallar silinir, adres değiştirilmeden
 yalnızca `Kanal 1` eklenir. M3U listeleri etkin liste olarak yüklenir.
 
 Güncelleme kontrolü bu ekrandan ayrıdır: **⋮ → Güncellemeyi kontrol et** GitHub
-Releases API'sine (`api.github.com/repos/ailantus/Tvlistesi/releases/latest`)
+Releases API'sine (`api.github.com/repos/ailantus/TvListesi/releases/latest`)
 bakıp son sürümün `.apk` varlığını indirir. Telegram kanalı artık güncelleme
 için taranmaz. Uygulama açılırken de bu kontrol otomatik yapılır; dosya önce
 uygulama içinde indirilir ve APK'nın kendi sürüm bilgisi okunur. Sürüm kurulu
@@ -287,9 +289,10 @@ bildirimi gösterilmez**. Yeni sürümse **Yeni sürüm var** uyarısı çıkar;
 sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol tekrar
 bildirim çıkarmaz.
 
-Yeni sürüm yayınlamak için `ailantus/Tvlistesi` deposunda bir release oluşturun
-(etiket `v27` gibi sürüm koduyla eşleşmelidir) ve imzalı APK'yı varlık olarak
-ekleyin. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
+Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
+(etiket `v2.0.17` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+olarak ekleyin. Uygulama etiketi sürüm karşılaştırması için kullanmaz; APK'nın
+kendi `versionCode`/`versionName` değerini okur. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive
 bağlantıları da indirilebilir; Telegram dosya eklerinin `t.me/s` önizlemesinde
 indirme adresi bulunmadığından ek olarak paylaşılan APK'lar indirilemez.
 Android 8+ için **Bilinmeyen kaynaklardan yükleme** izni kurulumdan önce istenir.

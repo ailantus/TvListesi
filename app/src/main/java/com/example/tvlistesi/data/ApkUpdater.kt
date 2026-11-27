@@ -60,7 +60,7 @@ object ApkUpdater {
     private const val APK_FILE = "guncelleme.apk"
     private const val MAX_APK_SIZE = 100L * 1024 * 1024
     private const val MEDIA_PROXY = "https://tg.i-c-a.su/media/"
-    private const val GITHUB_REPO = "ailantus/Tvlistesi"
+    private const val GITHUB_REPO = "ailantus/TvListesi"
     private const val RELEASES_URL = "https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 
     /** GitHub'daki son sürümün APK varlığını bulur. */
