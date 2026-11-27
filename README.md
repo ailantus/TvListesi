@@ -20,7 +20,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 - **Doğrudan yayın linki açma:** ⋮ → **Yayın adresi aç** ile HLS/DASH/MP4 adresini kanal listesine gerek kalmadan oynatma; uzantısız HLS film bağlantıları (`.../vs/tt.../`) da desteklenir
 - **M3U film listeleri:** tarayıcı/Telegram'dan bir `.m3u` bağlantısına dokunduğunuzda listedeki filmler etkin liste olarak yüklenir (ör. `power-sinema.m3u`)
 - **APK'yı Telegram'da paylaşma:** ⋮ → **APK'yı paylaş** kurulu sürümü, güncelleme uyarısındaki **Telegram'da paylaş** ise indirilen yeni sürümü gönderir (Telegram yoksa paylaşım seçicisi açılır)
-- HLS (`.m3u8`), DASH ve MP4 oynatma; **kaydırarak kanal değiştirme**, parlaklık/ses ayarı, oynat/duraklat; destekleyen yayınlarda sürüklenebilir zaman çizgisi
+- **Geniş biçim desteği:** HLS (`.m3u8`), DASH (`.mpd`), Smooth Streaming (`.ism/Manifest`) ve bilinen tüm video/ses uzantıları (`.mp4`, `.mkv`, `.webm`, `.ts`, `.avi`, `.flv`, `.mp3`, `.m4a`, `.aac`, `.flac`, `.ogg`, `.wav` vb.); uzantısız HLS bağlantıları da algılanır. Bilinmeyen biçimlerde MIME zorlanmaz, içerik ExoPlayer tarafından sınanır
+- **Kaydırarak kanal değiştirme**, parlaklık/ses ayarı, oynat/duraklat; destekleyen yayınlarda sürüklenebilir zaman çizgisi
 - Oynatıcıda **sağ tarafta kanal listesi**: geçerli kanal vurgulanır, dokunarak veya
   D-pad ile kanal değiştirilir; liste düğmesiyle gizlenip gösterilebilir
 - Oynatıcıda üst/alt çubuklar, sağdaki kanal paneli ve sistem çubukları **3 saniye** sonra gizlenir; kanal listesi ekranının üst çubuğu ve filtre satırı her zaman görünür kalır
@@ -38,8 +39,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.23 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.23.apk`, versionCode 34). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.24 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.24.apk`, versionCode 35). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -308,7 +309,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.23` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.24` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive

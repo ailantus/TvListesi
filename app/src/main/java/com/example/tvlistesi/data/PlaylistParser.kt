@@ -1,5 +1,6 @@
 package com.example.tvlistesi.data
 
+import androidx.media3.common.MimeTypes
 import org.json.JSONArray
 import org.json.JSONObject
 import org.json.JSONTokener
@@ -20,10 +21,42 @@ import java.net.URL
 object PlaylistParser {
 
     private val attributeRegex = Regex("([A-Za-z0-9_-]+)=\"([^\"]*)\"")
+
+    /**
+     * Doğrudan açılabilen bilinen medya uzantıları. Liste dosyası `.m3u` burada
+     * yer almaz; o adres bir liste olarak yüklenir.
+     */
     private val directStreamRegex = Regex(
-        """\.(m3u8|mpd|ts|m4s|mp4|mkv|webm|mp3|aac|flac)(?:\?|$)""",
+        """\.(m3u8|mpd|ism|manifest|mp4|m4v|mov|3gp|3g2|mkv|mk3d|webm|ts|m2ts|mts|m4s|avi|divx|flv|vob|mpg|mpeg|m1v|m2v|wmv|asf|ogv|rmvb|rm|mp3|m4a|aac|flac|ogg|oga|opus|wav|wma|aif|aiff|amr|mid|midi)(?:\?|#|$)""",
         RegexOption.IGNORE_CASE
     )
+
+    /** Media3'ün kendi extractor'larıyla açabildiği uzantı → MIME eşlemesi. */
+    private val mimeByExtension = mapOf(
+        "mp4" to MimeTypes.VIDEO_MP4,
+        "m4v" to MimeTypes.VIDEO_MP4,
+        "mov" to MimeTypes.VIDEO_MP4,
+        "3gp" to MimeTypes.VIDEO_MP4,
+        "3g2" to MimeTypes.VIDEO_MP4,
+        "m4s" to MimeTypes.VIDEO_MP4,
+        "mkv" to MimeTypes.VIDEO_MATROSKA,
+        "mk3d" to MimeTypes.VIDEO_MATROSKA,
+        "webm" to MimeTypes.VIDEO_WEBM,
+        "ogv" to MimeTypes.VIDEO_OGG,
+        "ts" to MimeTypes.VIDEO_MP2T,
+        "m2ts" to MimeTypes.VIDEO_MP2T,
+        "mts" to MimeTypes.VIDEO_MP2T,
+        "mp3" to MimeTypes.AUDIO_MPEG,
+        "m4a" to MimeTypes.AUDIO_MP4,
+        "aac" to MimeTypes.AUDIO_AAC,
+        "flac" to MimeTypes.AUDIO_FLAC,
+        "ogg" to MimeTypes.AUDIO_OGG,
+        "oga" to MimeTypes.AUDIO_OGG,
+        "opus" to MimeTypes.AUDIO_OPUS,
+        "wav" to MimeTypes.AUDIO_WAV,
+        "amr" to MimeTypes.AUDIO_AMR
+    )
+
     /** Telegram'da paylaşılan `/dizi` ve `/film` adresleri de tek kanaldır. */
     private val directPathRegex = Regex("""/(?:dizi|film)/?$""", RegexOption.IGNORE_CASE)
     /** `ha.vixolity.com/vs/tt.../` gibi uzantısız HLS film adresleri. */
@@ -35,6 +68,27 @@ object PlaylistParser {
             url.contains("/hls/", ignoreCase = true) ||
             url.contains("mpegurl", ignoreCase = true) ||
             extensionlessHlsRegex.containsMatchIn(url)
+
+    /**
+     * Adresten medya türünü çıkarır. Bilinmeyen ya da Media3'ün doğrudan
+     * desteklemediği uzantılarda null döner; oynatıcı içeriği kendi sınar.
+     */
+    fun mediaMimeType(url: String): String? {
+        if (isHlsAddress(url)) return MimeTypes.APPLICATION_M3U8
+        val address = url.substringBefore('?').substringBefore('#')
+        if (address.endsWith(".mpd", ignoreCase = true) ||
+            address.contains("/dash/", ignoreCase = true)
+        ) {
+            return MimeTypes.APPLICATION_MPD
+        }
+        if (address.endsWith("/manifest", ignoreCase = true) &&
+            address.contains(".ism", ignoreCase = true)
+        ) {
+            return MimeTypes.APPLICATION_SS
+        }
+        val extension = address.substringAfterLast('.', "").lowercase()
+        return mimeByExtension[extension]
+    }
 
     /**
      * Bir yayın adresinin bizzat kanal olduğu durumlar için tek kanallık liste
@@ -55,10 +109,13 @@ object PlaylistParser {
         // Doğrudan yayın adresleri için dosya adı ("index" vb.) yerine
         // izleme listesinde sıralı bir kanal adı kullanılır.
         val name = "Kanal 1"
+        val mime = mediaMimeType(address)
         val group = when {
-            isHlsAddress(address) -> "HLS"
-
-            address.contains(".mpd", true) || address.contains("dash", true) -> "DASH"
+            mime == MimeTypes.APPLICATION_M3U8 -> "HLS"
+            mime == MimeTypes.APPLICATION_MPD -> "DASH"
+            mime == MimeTypes.APPLICATION_SS -> "Smooth Streaming"
+            mime?.startsWith("audio/") == true -> "Ses"
+            mime?.startsWith("video/") == true -> "Video"
             else -> "Tek kanal"
         }
         return Channel(id = stableId(address), name = name, url = address, group = group)

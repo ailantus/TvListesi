@@ -120,4 +120,63 @@ class PlaylistParserTest {
         assertEquals(url, channels[0].url)
         assertEquals("HLS", channels[0].group)
     }
+
+    @Test
+    fun `bilinen video ve ses uzantilari tek kanal olarak acilir`() {
+        val urls = listOf(
+            "https://ornek.com/film.mp4",
+            "https://ornek.com/film.mkv",
+            "https://ornek.com/film.avi",
+            "https://ornek.com/film.flv",
+            "https://ornek.com/film.wmv",
+            "https://ornek.com/film.3gp?token=abc",
+            "https://ornek.com/sarki.mp3",
+            "https://ornek.com/sarki.m4a",
+            "https://ornek.com/sarki.ogg",
+            "https://ornek.com/sarki.wav"
+        )
+
+        urls.forEach { url ->
+            val channel = PlaylistParser.directChannel(url)
+            assertEquals("Kanal açılmadı: $url", url, channel?.url)
+        }
+    }
+
+    @Test
+    fun `medya MIME tipleri uzantiya gore cikarilir`() {
+        assertEquals(
+            "application/x-mpegURL",
+            PlaylistParser.mediaMimeType("https://ornek.com/canli.m3u8?sid=1")
+        )
+        assertEquals(
+            "application/dash+xml",
+            PlaylistParser.mediaMimeType("https://ornek.com/stream.mpd")
+        )
+        assertEquals(
+            "application/vnd.ms-sstr+xml",
+            PlaylistParser.mediaMimeType("https://ornek.com/stream.ism/Manifest")
+        )
+        assertEquals(
+            "video/mp4",
+            PlaylistParser.mediaMimeType("https://ornek.com/film.mp4?token=abc")
+        )
+        assertEquals(
+            "video/x-matroska",
+            PlaylistParser.mediaMimeType("https://ornek.com/film.mkv")
+        )
+        assertEquals(
+            "audio/mpeg",
+            PlaylistParser.mediaMimeType("https://ornek.com/sarki.mp3")
+        )
+        // Media3'ün kendi extractor'ı olmayan biçimlerde MIME zorlanmaz.
+        assertEquals(null, PlaylistParser.mediaMimeType("https://ornek.com/film.avi"))
+    }
+
+    @Test
+    fun `m3u listesi tek kanal sayilmaz`() {
+        assertEquals(
+            null,
+            PlaylistParser.directChannel("https://ornek.com/liste/liste.m3u")
+        )
+    }
 }

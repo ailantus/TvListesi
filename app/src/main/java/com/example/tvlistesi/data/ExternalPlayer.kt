@@ -27,13 +27,6 @@ object ExternalPlayer {
         }
     }
 
-    private fun mimeType(url: String): String = when {
-        url.contains(".m3u8", ignoreCase = true) -> "application/x-mpegURL"
-        url.contains(".mpd", ignoreCase = true) -> "application/dash+xml"
-        url.contains(".mp4", ignoreCase = true) -> "video/mp4"
-        url.contains(".mkv", ignoreCase = true) -> "video/x-matroska"
-        url.contains(".webm", ignoreCase = true) -> "video/webm"
-        url.contains(".ts", ignoreCase = true) -> "video/mp2t"
-        else -> "video/*"
-    }
+    private fun mimeType(url: String): String =
+        PlaylistParser.mediaMimeType(url) ?: "video/*"
 }

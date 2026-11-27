@@ -2,6 +2,7 @@ package com.example.tvlistesi.dlna
 
 import com.example.tvlistesi.data.DlnaDevice
 import com.example.tvlistesi.data.DlnaEntry
+import com.example.tvlistesi.data.PlaylistParser
 import org.w3c.dom.Document
 import org.w3c.dom.Element
 import java.io.ByteArrayInputStream
@@ -220,18 +221,8 @@ object DlnaXml {
 
     // ------------------------------------------------------------ yardımcılar
 
-    fun mimeTypeFor(url: String): String = when {
-        url.contains(".m3u8", ignoreCase = true) -> "application/vnd.apple.mpegurl"
-        url.contains(".mpd", ignoreCase = true) -> "application/dash+xml"
-        url.contains(".mp4", ignoreCase = true) -> "video/mp4"
-        url.contains(".mkv", ignoreCase = true) -> "video/x-matroska"
-        url.contains(".webm", ignoreCase = true) -> "video/webm"
-        url.contains(".ts", ignoreCase = true) -> "video/mp2t"
-        url.contains(".mp3", ignoreCase = true) -> "audio/mpeg"
-        url.contains(".aac", ignoreCase = true) -> "audio/aac"
-        url.contains(".flac", ignoreCase = true) -> "audio/flac"
-        else -> "video/mp4"
-    }
+    fun mimeTypeFor(url: String): String =
+        PlaylistParser.mediaMimeType(url) ?: "video/mp4"
 
     fun escape(value: String): String = value
         .replace("&", "&amp;")

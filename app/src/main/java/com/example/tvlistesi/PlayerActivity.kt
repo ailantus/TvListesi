@@ -35,7 +35,6 @@ import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
-import androidx.media3.common.MimeTypes
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Timeline
@@ -1096,18 +1095,12 @@ class PlayerActivity : AppCompatActivity() {
                 MediaMetadata.Builder().setTitle(channel.name).build()
             )
 
-        // Uzantısız HLS/DASH adreslerinde de doğru kaynak seçilsin.
-        // Bilinmeyen uzantılarda MIME zorlanmaz; ExoPlayer içeriği kendi sınar.
+        // Bilinen tüm medya türlerinde doğru kaynak seçilsin. Bilinmeyen
+        // uzantılarda MIME zorlanmaz; ExoPlayer içeriği kendi sınar.
         val declaredMime = if (single != null) externalMime else null
-        val isHls = PlaylistParser.isHlsAddress(channel.url) ||
-            declaredMime?.contains("mpegurl", ignoreCase = true) == true ||
-            declaredMime?.contains("hls", ignoreCase = true) == true
-        val isDash = channel.url.contains(".mpd", ignoreCase = true) ||
-            declaredMime?.contains("dash", ignoreCase = true) == true
-        when {
-            isHls -> itemBuilder.setMimeType(MimeTypes.APPLICATION_M3U8)
-            isDash -> itemBuilder.setMimeType(MimeTypes.APPLICATION_MPD)
-        }
+        val mime = declaredMime ?: PlaylistParser.mediaMimeType(channel.url)
+        mime?.takeIf { it.isNotBlank() && !it.contains('*') }
+            ?.let { itemBuilder.setMimeType(it) }
 
         seeking = false
         exoPlayer.setMediaItem(itemBuilder.build())
@@ -1154,14 +1147,7 @@ class PlayerActivity : AppCompatActivity() {
             mimeType: String?,
             hideList: Boolean = true
         ) {
-            val inferred = mimeType ?: when {
-                PlaylistParser.isHlsAddress(url) -> MimeTypes.APPLICATION_M3U8
-
-                url.contains(".mpd", ignoreCase = true) ||
-                    url.contains("dash", ignoreCase = true) -> MimeTypes.APPLICATION_MPD
-
-                else -> null
-            }
+            val inferred = mimeType ?: PlaylistParser.mediaMimeType(url)
             context.startActivity(
                 Intent(context, PlayerActivity::class.java)
                     .putExtra(EXTRA_URL, url)
