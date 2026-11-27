@@ -36,4 +36,10 @@ class TelegramDiscoveryTest {
 
         assertTrue(found.any { it.contains("type=Dizi", ignoreCase = true) })
     }
+
+    @Test
+    fun `m3u dosya eki indirme adresi olusturulur`() {
+        val url = TelegramDiscovery.m3uDocumentUrl("TvListesi", "157")
+        assertTrue(url.endsWith("/media/TvListesi/157"))
+    }
 }

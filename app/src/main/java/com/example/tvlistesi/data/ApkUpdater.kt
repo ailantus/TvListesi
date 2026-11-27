@@ -62,7 +62,8 @@ object ApkUpdater {
     private const val APK_DIR = "apk"
     private const val APK_FILE = "guncelleme.apk"
     private const val MAX_APK_SIZE = 100L * 1024 * 1024
-    private const val MEDIA_PROXY = "https://tg.i-c-a.su/media/"
+    /** Herkese açık Telegram mesajındaki dosyayı indirmek için kullanılan proxy. */
+    const val MEDIA_PROXY = "https://tg.i-c-a.su/media/"
     private const val GITHUB_REPO = "ailantus/TvListesi"
     private const val RELEASES_URL = "https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 

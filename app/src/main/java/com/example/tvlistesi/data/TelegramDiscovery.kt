@@ -149,8 +149,9 @@ object TelegramDiscovery {
 
         if (found.isEmpty()) {
             throw IllegalStateException(
-                "Bu kanalda M3U linki bulunamadı. Kanalın herkese açık olduğundan ve " +
-                    "mesajlarda .m3u/.m3u8 adresi ya da type=m3u bağlantısı paylaşıldığından emin olun."
+                "Bu kanalda M3U listesi bulunamadı. Kanalın herkese açık olduğundan ve " +
+                    "mesajlarda .m3u/.m3u8 adresi, .m3u dosya eki ya da type=m3u " +
+                    "bağlantısı paylaşıldığından emin olun."
             )
         }
         found.values.toList()
@@ -275,6 +276,39 @@ object TelegramDiscovery {
             }
         }
 
+        // Telegram dosya eki olarak paylaşılan .m3u/.m3u8 listeleri.
+        // Önizlemede yalnızca dosya adı görünür; içerik herkese açık medya
+        // proxy'si üzerinden indirilebilir.
+        val titles = documentTitleRegex.findAll(block).toList()
+        val sizes = documentSizeRegex.findAll(block).toList()
+        val hrefs = documentHrefRegex.findAll(block).toList()
+        titles.forEachIndexed { index, titleMatch ->
+            val fileName = stripTags(titleMatch.groupValues[1]).trim()
+            if (!fileName.endsWith(".m3u", true) && !fileName.endsWith(".m3u8", true)) {
+                return@forEachIndexed
+            }
+            val messageUrl = hrefs.getOrNull(index)?.groupValues?.get(1)
+                ?.let { unescapeHtml(it) }
+                ?.takeIf { it.contains("t.me", true) }
+                ?: "https://t.me/$channel/$id"
+            val proxyUrl = m3uDocumentUrl(channel, id)
+            val size = sizes.getOrNull(index)?.groupValues?.get(1)
+                ?.let { stripTags(it).trim() }?.takeIf { it.isNotBlank() }
+            val key = urlKey(proxyUrl)
+            if (key in found) return@forEachIndexed
+            found[key] = DiscoveredSource(
+                repoFullName = "t.me/$channel · mesaj #$id",
+                repoUrl = messageUrl,
+                title = fileName,
+                rawUrl = proxyUrl,
+                filePath = "Mesaj #$id · $fileName",
+                description = listOfNotNull(
+                    size?.let { "Telegram dosyası · $it" },
+                    text.take(140).ifBlank { null }?.replace('\n', ' ')
+                ).joinToString(" · ")
+            )
+        }
+
         val urls = LinkedHashSet<String>()
         val direct = LinkedHashSet<String>()
         collectUrls(text, urls)
@@ -359,6 +393,10 @@ object TelegramDiscovery {
         paramMediaUrl.findAll(value).forEach { target += clean(it.value) }
         relativeParamMediaUrl.findAll(value).forEach { target += "https:" + clean(it.value) }
     }
+
+    /** Telegram dosya ekinin herkese açık indirme adresi. */
+    internal fun m3uDocumentUrl(channel: String, messageId: String): String =
+        "${ApkUpdater.MEDIA_PROXY}$channel/$messageId"
 
     private fun clean(url: String): String = url
         .trimEnd('.', ',', ';', ')', ']', '}', '!', '»', '"')
