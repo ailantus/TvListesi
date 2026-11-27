@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="arka_plan">#0B0F14</color>
+    <color name="yuzey">#141B23</color>
+    <color name="yuzey_2">#1C2530</color>
+    <color name="cizgi">#24303D</color>
+    <color name="metin">#E8EEF5</color>
+    <color name="soluk">#93A3B4</color>
+    <color name="vurgu">#4FB3FF</color>
+    <color name="vurgu_uzeri">#04121E</color>
+    <color name="vurgu_kap">#12314A</color>
+    <color name="hata">#FF7A7A</color>
+    <color name="basari">#6BD68A</color>
+    <color name="logo_arka">#1A232E</color>
+    <color name="beyaz">#FFFFFF</color>
+    <color name="ikon_arka">#0B0F14</color>
+</resources>

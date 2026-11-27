@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_lists"
+        android:icon="@drawable/ic_bookmark"
+        android:title="@string/kayitli_listeler"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/yenile"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/sunucu"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_open_stream"
+        android:icon="@drawable/ic_play"
+        android:title="@string/yayin_ac"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_discover"
+        android:icon="@drawable/ic_link"
+        android:title="@string/telegram_liste_bul"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_check_links"
+        android:icon="@drawable/ic_check_circle"
+        android:title="@string/link_baslik"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_update"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/guncelleme_kontrol"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_dlna"
+        android:icon="@drawable/ic_cast"
+        android:title="@string/dlna_sunuculari"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_rotate"
+        android:icon="@drawable/ic_rotate"
+        android:title="@string/ekrani_dondur"
+        app:showAsAction="always" />
+
+</menu>

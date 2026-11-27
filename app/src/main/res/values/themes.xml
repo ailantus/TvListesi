@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.TvListesi" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/vurgu</item>
+        <item name="colorOnPrimary">@color/vurgu_uzeri</item>
+        <item name="colorPrimaryContainer">@color/vurgu_kap</item>
+        <item name="colorOnPrimaryContainer">@color/metin</item>
+        <item name="colorSecondary">@color/vurgu</item>
+        <item name="colorOnSecondary">@color/vurgu_uzeri</item>
+        <item name="colorError">@color/hata</item>
+        <item name="colorOnError">@color/arka_plan</item>
+
+        <item name="android:colorBackground">@color/arka_plan</item>
+        <item name="colorSurface">@color/yuzey</item>
+        <item name="colorOnSurface">@color/metin</item>
+        <item name="colorSurfaceVariant">@color/yuzey_2</item>
+        <item name="colorOnSurfaceVariant">@color/soluk</item>
+        <item name="colorOutline">@color/cizgi</item>
+
+        <item name="android:windowBackground">@color/arka_plan</item>
+        <item name="android:statusBarColor">@color/arka_plan</item>
+        <item name="android:navigationBarColor">@color/arka_plan</item>
+    </style>
+
+    <style name="Theme.TvListesi.Player">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+    </style>
+
+</resources>

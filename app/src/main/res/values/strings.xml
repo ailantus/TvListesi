@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TV Listesi</string>
+
+    <string name="kanal_ara">Kanal ara</string>
+    <string name="tum_gruplar">Tüm gruplar</string>
+    <string name="yenile">Yenile</string>
+    <string name="sunucu">Sunucu</string>
+
+    <string name="sunucu_ayarlari">Sunucu ayarları</string>
+    <string name="sunucu_adresi">Kanal listesi adresi</string>
+    <string name="sunucu_ipucu">JSON veya M3U adresi girin.\nÖrnek: http://10.0.2.2:8000/channels.json</string>
+    <string name="otomatik_guncelle">Açılışta otomatik güncelle</string>
+    <string name="kaydet">Kaydet</string>
+    <string name="iptal">İptal</string>
+    <string name="gecersiz_adres">Adres http:// veya https:// ile başlamalı</string>
+
+    <string name="tekrar_dene">Tekrar dene</string>
+    <string name="son_guncelleme">Son güncelleme: %1$s</string>
+    <string name="henuz_guncellenmedi">Henüz güncellenmedi</string>
+    <string name="liste_guncellendi">%1$d kanal güncellendi</string>
+    <string name="onbellek_kullaniliyor">Sunucuya ulaşılamadı, kayıtlı liste kullanılıyor</string>
+    <string name="liste_yuklenemedi">Kanal listesi yüklenemedi.\n%1$s</string>
+    <string name="bilinmeyen_hata">Bilinmeyen hata</string>
+    <string name="sunucu_adresi_kontrol">Kanal listesi henüz yüklenmedi.\nSunucu adresini kontrol edip tekrar deneyin.</string>
+    <string name="sonuc_yok">Aramanızla eşleşen kanal yok.</string>
+    <string name="adres_kopyalandi">Yayın adresi kopyalandı</string>
+
+    <string name="logo">Kanal logosu</string>
+    <string name="canli_yayin">Canlı yayın</string>
+    <string name="yayin_ac">Yayın adresi aç</string>
+    <string name="yayin_adresi">Yayın adresi (HLS / DASH / MP4)</string>
+    <string name="yayin_adresi_ipucu">Örn: http://57.129.0.61:1990/stream/117/index.m3u8</string>
+    <string name="onceki">Önceki</string>
+    <string name="sonraki">Sonraki</string>
+    <string name="oynat">Oynat</string>
+    <string name="duraklat">Duraklat</string>
+    <string name="geri">Geri</string>
+    <string name="geri_sar">10 saniye geri sar</string>
+    <string name="ileri_sar">10 saniye ileri sar</string>
+    <string name="saniye">%1$s sn</string>
+    <string name="zaman_bilgisi">%1$s / %2$s</string>
+    <string name="zaman_cizgisi">Zaman çizgisi</string>
+    <string name="ekrani_dondur">Ekranı döndür</string>
+    <string name="ekran_boyutu">Ekran boyutu</string>
+    <string name="goruntu_modu">Görüntü modu: %1$s</string>
+    <string name="kanallar">Kanallar</string>
+    <string name="kanal_adi">Kanal %1$d</string>
+    <string name="kanal_sayisi">%1$d kanal</string>
+    <string name="kanal_listesini_kapat">Kanal listesini kapat</string>
+    <string name="kanal_listesini_gizle">Kanal listesini gizle</string>
+    <string name="kanal_listesini_goster">Kanal listesini göster</string>
+    <string name="goruntu_sigdir">Sığdır</string>
+    <string name="goruntu_kirp">Kırp</string>
+    <string name="goruntu_esnet">Esnet</string>
+    <string name="oynatma_hatasi">Yayın açılamadı (%1$s).\nAdresi ve ağ bağlantınızı kontrol edin.</string>
+    <string name="kanal_bulunamadi">Kanal bulunamadı. Listeyi yenileyin.</string>
+
+    <string name="kayitli_listeler">Kayıtlı listeler</string>
+    <string name="kayitli_listeler_sayisi">Kayıtlı listeler (%1$d/%2$d)</string>
+    <string name="liste_kaydet">Mevcut listeyi kaydet</string>
+    <string name="liste_adi">Liste adı</string>
+    <string name="liste_adi_gerekli">Liste adı gerekli</string>
+    <string name="kayitli_liste_yok">Henüz kayıtlı liste yok.\nAşağıdaki düğmeyle mevcut listeyi kaydedebilirsiniz.</string>
+    <string name="yerlesik_liste">Yerleşik liste (TeVe)</string>
+    <string name="yerlesik_liste_ipucu">Uygulamaya gömülü · çevrimdışı da çalışır</string>
+    <string name="yerlesik_liste_kayitli">Yerleşik liste zaten menüde.</string>
+    <string name="liste_kaydedildi">Liste kaydedildi</string>
+    <string name="liste_silindi">Liste silindi</string>
+    <string name="kayit_limiti">En fazla %1$d liste kaydedebilirsiniz.</string>
+    <string name="liste_silinsin_mi">\"%1$s\" listesi silinsin mi?</string>
+    <string name="sil">Sil</string>
+    <string name="kapat">Kapat</string>
+    <string name="mevcut_liste">Mevcut liste</string>
+
+    <string name="harici_oynatici">Harici oynatıcıda aç</string>
+    <string name="harici_oynatici_ipucu">VLC, MX Player gibi uygulamalarla oynatılır.</string>
+    <string name="harici_oynatici_yok">Harici oynatıcı bulunamadı.</string>
+
+    <string name="dlna_gonder">DLNA\'ya gönder</string>
+    <string name="dlna_sunuculari">DLNA sunucuları</string>
+    <string name="dlna_cihaz_ara">DLNA cihazları aranıyor…</string>
+    <string name="dlna_cihaz_yok">DLNA cihazı bulunamadı.\nAynı Wi-Fi ağında olduğunuzdan emin olun.</string>
+    <string name="dlna_sunucu_yok">DLNA sunucusu bulunamadı.\nAynı Wi-Fi ağında olduğunuzdan emin olun.</string>
+    <string name="dlna_gonderildi">\"%1$s\" → %2$s cihazına gönderildi</string>
+    <string name="dlna_gonderiliyor">Gönderiliyor…</string>
+    <string name="dlna_gonderilemedi">DLNA cihazına gönderilemedi.</string>
+    <string name="dlna_durdur">Durdur</string>
+    <string name="dlna_durduruldu">DLNA oynatma durduruldu.</string>
+    <string name="dlna_yenile">Yenile</string>
+    <string name="dlna_adresle_ekle">Adresle ekle</string>
+    <string name="ekle">Ekle</string>
+    <string name="dlna_cihaz_adresi">Cihaz tanım adresi</string>
+    <string name="dlna_cihaz_adresi_ipucu">Örn: http://192.168.1.20:9197/dmr</string>
+    <string name="dlna_gecersiz_adres">Geçerli bir http(s) adresi girin.</string>
+    <string name="dlna_cihaz_eklendi">Cihaz eklendi.</string>
+    <string name="dlna_cihaz_bulunamadi_adres">Bu adreste uygun bir DLNA cihazı bulunamadı.</string>
+    <string name="dlna_oynatici_cihaz">Oynatıcı</string>
+    <string name="dlna_sunucu_cihaz">Sunucu</string>
+    <string name="dlna_oynatici_ve_sunucu">Oynatıcı + Sunucu</string>
+    <string name="dlna_klasor">Klasör</string>
+    <string name="dlna_oge">Öğe</string>
+    <string name="dlna_klasor_oge_sayisi">Klasör · %1$d öğe</string>
+    <string name="dlna_bos_klasor">Bu klasörde oynatılabilir içerik yok.</string>
+    <string name="dlna_yukleniyor">Yükleniyor…</string>
+    <string name="dlna_sunucu_sec">Bir sunucu seçin</string>
+    <string name="dlna_medya_hatasi">DLNA içeriği açılamadı.</string>
+    <string name="surum">Sürüm: %1$s</string>
+
+    <!-- Kaydırma hareketleri -->
+    <string name="parlaklik">Parlaklık</string>
+    <string name="ses_seviyesi">Ses seviyesi</string>
+    <string name="gesture_ipucu">Sola/sağa kaydır: kanal değiştir · Yukarı/aşağı kaydır: solda parlaklık, sağda ses</string>
+    <string name="yuzde">%%%1$d</string>
+
+    <!-- Telegram'dan liste bulma -->
+    <string name="telegram_liste_bul">Telegram\'dan liste bul</string>
+    <string name="github_kaynak">GitHub</string>
+    <string name="telegram_kaynak">Telegram</string>
+    <string name="telegram_arama_ipucu">Örn: https://t.me/s/TvListesi</string>
+    <string name="github_arama_ipucu">Örn: turkiye iptv m3u</string>
+    <string name="github_ara">Ara</string>
+    <string name="github_araniyor">GitHub aranıyor…</string>
+    <string name="github_bulunan">%1$d M3U adresi bulundu</string>
+    <string name="github_ozet">%1$d liste · %2$d çalışıyor · %3$d hatalı</string>
+    <string name="github_test_edilmedi">Kontrol edilmedi</string>
+    <string name="github_kontrol_ediliyor">Kontrol ediliyor…</string>
+    <string name="github_calisiyor">Liste okunabildi</string>
+    <string name="github_erisme_hatasi">Erişilemedi</string>
+    <string name="github_kontrol_et">Kontrol et</string>
+    <string name="github_kullan">Kullan</string>
+    <string name="github_tumunu_kontrol">Tümünü kontrol et</string>
+    <string name="github_dogrulanmadi">Bu liste henüz doğrulanmadı. Yine de etkin liste olarak kullanılsın mı?</string>
+    <string name="github_yine_de_kullan">Yine de kullan</string>
+    <string name="github_token">GitHub token (isteğe bağlı)</string>
+    <string name="github_token_ipucu">API sınırını yükseltmek için kişisel erişim token\'ı.</string>
+
+    <!-- Yayın linki kontrolü -->
+    <string name="link_baslik">Yayın linklerini kontrol et</string>
+    <string name="link_kanal_sayisi">%1$d kanal kontrol edilecek</string>
+    <string name="link_durum">%1$d/%2$d kontrol edildi · %3$d çalışan · %4$d hatalı</string>
+    <string name="link_baslat">Kontrolü başlat</string>
+    <string name="link_durdur">Durdur</string>
+    <string name="link_kaldir">Hatalıları kaldır</string>
+    <string name="link_tumu">Tümü</string>
+    <string name="link_calisanlar">Çalışanlar</string>
+    <string name="link_hatalilar">Hatalılar</string>
+    <string name="link_bekliyor">Bekliyor</string>
+    <string name="link_liste_yok">Kontrol edilecek kanal yok. Önce bir liste yükleyin.</string>
+    <string name="link_tamamlandi">Link kontrolü tamamlandı</string>
+    <string name="link_durduruldu">Kontrol durduruldu</string>
+    <string name="link_kaldirma_baslik">Hatalı kanallar kaldırılsın mı?</string>
+    <string name="link_kaldirma_onay">%1$d çalışmayan kanal listeden çıkarılacak. Kalan kanallar cihazınıza yerel liste olarak kaydedilecek.</string>
+    <string name="link_kaldirma_uyari">%1$d çalışmayan kanal var, %2$d kanalın kontrolü henüz bitmedi. Yine de devam edilsin mi?</string>
+    <string name="link_kaldirma_button">Kaldır ve kaydet</string>
+    <string name="link_yeni_liste">%1$d kanal yeni listeye kaydedildi</string>
+
+    <!-- GitHub Releases'tan APK güncelleme -->
+    <string name="guncelleme_var">Yeni sürüm var</string>
+    <string name="guncelleme_mesaj">GitHub\'da yeni bir sürüm yayınlandı: %1$s%2$s\nGüncellemeyi kurmak ister misiniz?</string>
+    <string name="guncelleme_kontrol">Güncellemeyi kontrol et</string>
+    <string name="guncelleme_bulunamadi">TvListesi ile başlayan bir APK güncellemesi bulunamadı.</string>
+    <string name="guncelle">Güncelle</string>
+    <string name="sonra">Sonra</string>
+    <string name="apk_indiriliyor">APK indiriliyor…</string>
+    <string name="apk_indirme_hatasi">APK indirilemedi: %1$s</string>
+    <string name="kurulum_baslatilamadi">Kurulum başlatılamadı: %1$s</string>
+    <string name="guncelleme_kuruldu">Güncelleme kuruldu.</string>
+    <string name="guncelleme_kurulamadi">Güncelleme kurulamadı.</string>
+    <string name="guncelleme_guncel">Zaten güncel sürümü kullanıyorsunuz.</string>
+    <string name="apk_surum_hatasi">APK sürümü okunamadı.</string>
+    <string name="apk_imza_hatasi">APK imzası kurulu uygulamayla uyuşmuyor.</string>
+    <string name="apk_dosya_eki_uyarisi">Bu APK Telegram dosya eki olarak paylaşılmış. Uygulama içinde indirmek için mesaja doğrudan .apk bağlantısı ekleyin.</string>
+    <string name="bilinmeyen_kaynak_izin">Bu uygulamanın APK kurmasına izin verin.</string>
+</resources>

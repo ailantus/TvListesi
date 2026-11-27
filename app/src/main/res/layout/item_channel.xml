@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/yuzey"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:rippleColor="@color/vurgu_kap"
+    app:strokeColor="@color/kanal_cizgi"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/channelLogo"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:background="@drawable/logo_arka"
+            android:contentDescription="@string/logo"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_tv"
+            app:tint="@color/soluk" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/channelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/metin"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="Kanal adı" />
+
+            <TextView
+                android:id="@+id/channelGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/soluk"
+                android:textSize="12sp"
+                tools:text="Ulusal" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_play"
+            app:tint="@color/vurgu" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
