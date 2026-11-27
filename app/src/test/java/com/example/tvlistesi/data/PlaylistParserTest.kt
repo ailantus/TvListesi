@@ -173,6 +173,21 @@ class PlaylistParserTest {
     }
 
     @Test
+    fun `logo adresindeki virgul film adini bozmaz`() {
+        val body = """
+            #EXTM3U
+            #EXTINF:-1 tvg-logo="https://ornek/a_CR0,0,190,281_.jpg" group-title="Aile",Film Adı (2020)
+            https://ha.vixolity.com/vs/tt12345678/
+        """.trimIndent()
+
+        val channels = PlaylistParser.parse(body)
+
+        assertEquals("Film Adı (2020)", channels[0].name)
+        assertEquals("Aile", channels[0].group)
+        assertEquals("https://ornek/a_CR0,0,190,281_.jpg", channels[0].logo)
+    }
+
+    @Test
     fun `m3u listesi tek kanal sayilmaz`() {
         assertEquals(
             null,

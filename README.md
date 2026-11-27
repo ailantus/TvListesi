@@ -39,8 +39,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.24 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.24.apk`, versionCode 35). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.25 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.25.apk`, versionCode 36). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -206,10 +206,18 @@ liste düğmesi kaldırıldı; kanal değiştirme dokunma/kumanda hareketleriyle
 
 Uzantısı olmayan HLS film sayfaları (ör. `https://ha.vixolity.com/vs/tt36164852/`)
 HLS olarak oynatılır; içerik adresinde `.m3u8` uzantısı bulunmasına gerek yoktur.
-Bir film listesini (`https://raw.githubusercontent.com/GitLatte/patr0n/refs/heads/site/lists/power-sinema.m3u`
-gibi) **Sunucu adresi** alanına girip yenileyebilir veya tarayıcı/Telegram'dan
-doğrudan uygulamayla açabilirsiniz. Listedeki her film ayrı bir kanal olarak görünür;
-dokununca dahili oynatıcı açılır.
+Bir film listesini **Sunucu adresi** alanına girip yenileyebilir veya
+tarayıcı/Telegram'dan doğrudan uygulamayla açabilirsiniz. Listedeki her film ayrı
+bir kanal olarak görünür; dokununca dahili oynatıcı açılır.
+
+Temizlenmiş ve türe göre sınıflandırılmış film listesi (9.342 film, `Film Adı (Yıl)`
+biçiminde adlar, IMDb tür/yıl bilgisi):
+
+```
+https://raw.githubusercontent.com/ailantus/TeVe/main/data/power-sinema.m3u
+```
+
+"Tüm gruplar" filtresinden tür seçerek filmleri türlerine göre gezebilirsiniz.
 
 ### Harici oynatıcı
 
@@ -309,7 +317,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.24` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.25` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive

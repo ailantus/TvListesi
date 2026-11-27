@@ -245,9 +245,8 @@ object PlaylistParser {
 
             when {
                 line.startsWith("#EXTINF", ignoreCase = true) -> {
-                    val comma = line.indexOf(',')
-                    name = if (comma >= 0) line.substring(comma + 1).trim() else ""
-                    val head = if (comma >= 0) line.substring(0, comma) else line
+                    val (head, rawName) = splitExtinf(line)
+                    name = rawName.trim()
                     attributes = attributeRegex.findAll(head)
                         .associate { it.groupValues[1].lowercase() to it.groupValues[2].trim() }
                 }
@@ -284,6 +283,23 @@ object PlaylistParser {
             }
         }
         return result
+    }
+
+    /**
+     * EXTINF satırını yalnızca tırnak dışındaki ilk virgülden böler.
+     * `tvg-logo` adreslerindeki virgüller film adını bozmaması için gereklidir.
+     */
+    private fun splitExtinf(line: String): Pair<String, String> {
+        var quoted = false
+        for (index in line.indices) {
+            when (line[index]) {
+                '"' -> quoted = !quoted
+                ',' -> if (!quoted) {
+                    return line.substring(0, index) to line.substring(index + 1)
+                }
+            }
+        }
+        return line to ""
     }
 
     private fun first(json: JSONObject, vararg keys: String): String {
