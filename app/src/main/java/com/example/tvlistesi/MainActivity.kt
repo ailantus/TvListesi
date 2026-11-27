@@ -161,6 +161,36 @@ class MainActivity : AppCompatActivity() {
         if (intent.action != Intent.ACTION_VIEW) return false
         val data = intent.data ?: return false
         val url = data.toString()
+        if (url.substringBefore('?').endsWith(".m3u", ignoreCase = true)) {
+            // M3U liste bağlantısı (ör. film listeleri): tek kanal yerine
+            // tüm listeyi etkin liste olarak yükle.
+            binding.progress.isVisible = true
+            lifecycleScope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    PlaylistRepository.setServerUrl(this@MainActivity, url)
+                    PlaylistRepository.refresh(this@MainActivity, url)
+                }
+                binding.progress.isVisible = false
+                result.onSuccess { count ->
+                    applyChannelsToUi()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.liste_guncellendi, count),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }.onFailure { error ->
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(
+                            R.string.liste_yuklenemedi,
+                            error.message ?: getString(R.string.bilinmeyen_hata)
+                        ),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            return true
+        }
         if (PlaylistParser.directChannel(url) == null) return false
 
         // Bağlantıyı olduğu gibi listeye ekle; sunucu adresini değiştirme.

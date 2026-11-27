@@ -46,6 +46,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tvlistesi.data.Channel
 import com.example.tvlistesi.data.DlnaDevice
 import com.example.tvlistesi.data.ExternalPlayer
+import com.example.tvlistesi.data.PlaylistParser
 import com.example.tvlistesi.data.PlaylistRepository
 import com.example.tvlistesi.databinding.ActivityPlayerBinding
 import com.example.tvlistesi.databinding.DialogDlnaDevicesBinding
@@ -1098,8 +1099,7 @@ class PlayerActivity : AppCompatActivity() {
         // Uzantısız HLS/DASH adreslerinde de doğru kaynak seçilsin.
         // Bilinmeyen uzantılarda MIME zorlanmaz; ExoPlayer içeriği kendi sınar.
         val declaredMime = if (single != null) externalMime else null
-        val isHls = channel.url.contains(".m3u8", ignoreCase = true) ||
-            channel.url.contains("/hls/", ignoreCase = true) ||
+        val isHls = PlaylistParser.isHlsAddress(channel.url) ||
             declaredMime?.contains("mpegurl", ignoreCase = true) == true ||
             declaredMime?.contains("hls", ignoreCase = true) == true
         val isDash = channel.url.contains(".mpd", ignoreCase = true) ||
@@ -1155,9 +1155,7 @@ class PlayerActivity : AppCompatActivity() {
             hideList: Boolean = true
         ) {
             val inferred = mimeType ?: when {
-                url.contains(".m3u8", ignoreCase = true) ||
-                    url.contains("/hls/", ignoreCase = true) ||
-                    url.contains("mpegurl", ignoreCase = true) -> MimeTypes.APPLICATION_M3U8
+                PlaylistParser.isHlsAddress(url) -> MimeTypes.APPLICATION_M3U8
 
                 url.contains(".mpd", ignoreCase = true) ||
                     url.contains("dash", ignoreCase = true) -> MimeTypes.APPLICATION_MPD

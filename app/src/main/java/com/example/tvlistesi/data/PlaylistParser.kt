@@ -26,6 +26,15 @@ object PlaylistParser {
     )
     /** Telegram'da paylaşılan `/dizi` ve `/film` adresleri de tek kanaldır. */
     private val directPathRegex = Regex("""/(?:dizi|film)/?$""", RegexOption.IGNORE_CASE)
+    /** `ha.vixolity.com/vs/tt.../` gibi uzantısız HLS film adresleri. */
+    private val extensionlessHlsRegex = Regex("""/vs/tt\d+""", RegexOption.IGNORE_CASE)
+
+    /** HLS yayını olduğu bilinen adresler (uzantısız olanlar dahil). */
+    fun isHlsAddress(url: String): Boolean =
+        url.contains(".m3u8", ignoreCase = true) ||
+            url.contains("/hls/", ignoreCase = true) ||
+            url.contains("mpegurl", ignoreCase = true) ||
+            extensionlessHlsRegex.containsMatchIn(url)
 
     /**
      * Bir yayın adresinin bizzat kanal olduğu durumlar için tek kanallık liste
@@ -38,8 +47,8 @@ object PlaylistParser {
         }
         val path = runCatching { URL(address).path }.getOrDefault(address)
         val isDirect = directStreamRegex.containsMatchIn(address) ||
+            isHlsAddress(address) ||
             path.contains("/live/", ignoreCase = true) ||
-            path.contains("/hls/", ignoreCase = true) ||
             directPathRegex.containsMatchIn(path)
         if (!isDirect) return null
 
@@ -47,9 +56,7 @@ object PlaylistParser {
         // izleme listesinde sıralı bir kanal adı kullanılır.
         val name = "Kanal 1"
         val group = when {
-            address.contains(".m3u8", true) ||
-                address.contains("/hls/", true) ||
-                address.contains("mpegurl", true) -> "HLS"
+            isHlsAddress(address) -> "HLS"
 
             address.contains(".mpd", true) || address.contains("dash", true) -> "DASH"
             else -> "Tek kanal"

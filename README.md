@@ -17,7 +17,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 - Kanal arama ve grup filtresi
 - En fazla **10 listeyi** adlandırarak kaydetme ve aralarında tek dokunuşla geçiş
 - Harici oynatıcı desteği (VLC, MX Player vb.)
-- **Doğrudan yayın linki açma:** ⋮ → **Yayın adresi aç** ile HLS/DASH/MP4 adresini kanal listesine gerek kalmadan oynatma
+- **Doğrudan yayın linki açma:** ⋮ → **Yayın adresi aç** ile HLS/DASH/MP4 adresini kanal listesine gerek kalmadan oynatma; uzantısız HLS film bağlantıları (`.../vs/tt.../`) da desteklenir
+- **M3U film listeleri:** tarayıcı/Telegram'dan bir `.m3u` bağlantısına dokunduğunuzda listedeki filmler etkin liste olarak yüklenir (ör. `power-sinema.m3u`)
 - **APK'yı Telegram'da paylaşma:** ⋮ → **APK'yı paylaş** kurulu sürümü, güncelleme uyarısındaki **Telegram'da paylaş** ise indirilen yeni sürümü gönderir (Telegram yoksa paylaşım seçicisi açılır)
 - HLS (`.m3u8`), DASH ve MP4 oynatma; **kaydırarak kanal değiştirme**, parlaklık/ses ayarı, oynat/duraklat; destekleyen yayınlarda sürüklenebilir zaman çizgisi
 - Oynatıcıda **sağ tarafta kanal listesi**: geçerli kanal vurgulanır, dokunarak veya
@@ -37,8 +38,8 @@ uygulamayı yeniden yayınlamanız gerekmez.
 
 ## İndir
 
-Hazır imzalı APK: [TvListesi 2.0.22 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
-(`TvListesi-2.0.22.apk`, versionCode 33). Uygulama açılışta bu sürümü kontrol eder
+Hazır imzalı APK: [TvListesi 2.0.23 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-2.0.23.apk`, versionCode 34). Uygulama açılışta bu sürümü kontrol eder
 ve yeni sürüm varsa kurulumu teklif eder.
 
 ## Hızlı başlangıç
@@ -200,6 +201,15 @@ değiştirilmeden, olduğu gibi kanal listesine eklenir. Sunucu adresi değişme
 bağlantı doğrudan yayın linki olarak saklanır. Oynatıcıdaki kanal listesi paneli ve
 liste düğmesi kaldırıldı; kanal değiştirme dokunma/kumanda hareketleriyle çalışır.
 
+### Film listeleri
+
+Uzantısı olmayan HLS film sayfaları (ör. `https://ha.vixolity.com/vs/tt36164852/`)
+HLS olarak oynatılır; içerik adresinde `.m3u8` uzantısı bulunmasına gerek yoktur.
+Bir film listesini (`https://raw.githubusercontent.com/GitLatte/patr0n/refs/heads/site/lists/power-sinema.m3u`
+gibi) **Sunucu adresi** alanına girip yenileyebilir veya tarayıcı/Telegram'dan
+doğrudan uygulamayla açabilirsiniz. Listedeki her film ayrı bir kanal olarak görünür;
+dokununca dahili oynatıcı açılır.
+
 ### Harici oynatıcı
 
 - Oynatıcı ekranındaki **dışa aç** simgesi geçerli kanalı cihazdaki başka bir
@@ -298,7 +308,7 @@ sürüm için uyarı bir kez gösterilir; **Sonra** seçilirse otomatik kontrol 
 bildirim çıkarmaz.
 
 Yeni sürüm yayınlamak için `ailantus/TvListesi` deposunda bir release oluşturun
-(etiket `v2.0.22` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
+(etiket `v2.0.23` gibi `versionName` ile eşleşmelidir) ve imzalı APK'yı varlık
 olarak ekleyin. Uygulama aynı etiketli sürümü tekrar indirmez; indirmeden önce
 etiketi kurulu sürümle karşılaştırır, gerekiyorsa APK'nın `versionCode`/
 `versionName` değerini okuyup imzasını doğrular. Telegram kanalından bulunan doğrudan `.apk` veya Google Drive

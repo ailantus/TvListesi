@@ -1,6 +1,7 @@
 package com.example.tvlistesi.data
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class PlaylistParserTest {
@@ -68,5 +69,55 @@ class PlaylistParserTest {
         assertEquals(1, channels.size)
         assertEquals("https://ornek.com/liste/trt1/index.m3u8", channels[0].url)
         assertEquals("TRT 1", channels[0].name)
+    }
+
+    @Test
+    fun `vixolity film listesi uzantisiz HLS kanallari olarak okunur`() {
+        val body = """
+            #EXTM3U
+            #EXTINF:0 tvg-logo="https://ornek/poster.jpg" group-title="Sinema",Tad and the Magic Lamp (2026)
+            https://ha.vixolity.com/vs/tt36164852/
+            #EXTINF:0 group-title="Sinema",Minions & Monsters (2026)
+            https://ha.vixolity.com/vs/tt32890033/
+        """.trimIndent()
+
+        val channels = PlaylistParser.parse(
+            body,
+            "https://raw.githubusercontent.com/GitLatte/patr0n/site/lists/power-sinema.m3u"
+        )
+
+        assertEquals(2, channels.size)
+        assertEquals("Tad and the Magic Lamp (2026)", channels[0].name)
+        assertEquals("https://ha.vixolity.com/vs/tt36164852/", channels[0].url)
+        assertEquals("https://ornek/poster.jpg", channels[0].logo)
+        assertEquals("Sinema", channels[0].group)
+        assertEquals("https://ha.vixolity.com/vs/tt32890033/", channels[1].url)
+    }
+
+    @Test
+    fun `uzantisiz film adresi HLS olarak taninir`() {
+        val url = "https://ha.vixolity.com/vs/tt36164852/"
+
+        assertTrue(PlaylistParser.isHlsAddress(url))
+        val channel = PlaylistParser.directChannel(url)
+        assertEquals(url, channel?.url)
+        assertEquals("HLS", channel?.group)
+    }
+
+    @Test
+    fun `film master listesi tek kanal olarak acilir`() {
+        val master = """
+            #EXTM3U
+            #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio0",NAME="Türkçe",URI="index-a1.gif"
+            #EXT-X-STREAM-INF:BANDWIDTH=2249507,AUDIO="audio0"
+            index-v1-a2.gif
+        """.trimIndent()
+        val url = "https://ha.vixolity.com/vs/tt36164852/"
+
+        val channels = PlaylistParser.parse(master, url)
+
+        assertEquals(1, channels.size)
+        assertEquals(url, channels[0].url)
+        assertEquals("HLS", channels[0].group)
     }
 }
