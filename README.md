@@ -32,6 +32,11 @@ uygulamayı yeniden yayınlamanız gerekmez.
 - **Toplu link kontrolü:** Etkin listedeki tüm yayın adreslerini eşzamanlı sınar;
   çalışan/hatalı filtresi ve tek dokunuşla hatalıları ayıklayıp yerel liste oluşturma
 
+## İndir
+
+Hazır imzalı APK: [TvListesi 2.0.16 sürümü](https://github.com/ailantus/TvListesi/releases/latest)
+(`TvListesi-apk-guncelleme-2.0.16.apk`, versionCode 27).
+
 ## Hızlı başlangıç
 
 ### 1. Örnek sunucuyu çalıştırın
